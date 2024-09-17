@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore - Petify</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #ffcc00; /* Bright yellow */
+            padding: 1rem 2rem;
+            color: #333;
+            position: relative;
+            z-index: 1;
+        }
+
+        .navbar .logo {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .navbar nav {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .navbar a {
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .navbar a:hover {
+            color: #ff9900; /* Darker yellow */
+            transform: scale(1.05);
+        }
+
+        .navbar .login-signup {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .navbar .login-signup:hover {
+            background-color: #ff9900; /* Darker yellow */
+            transform: scale(1.05);
+        }
+
+        .reels-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .reel {
+            position: relative;
+            width: 100%;
+            height: 100vh; /* Full height for each reel */
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+            display: none; /* Hide all reels by default */
+        }
+
+        .reel.active {
+            display: flex; /* Show only the active reel */
+        }
+
+        .reel video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .reel .controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            color: #fff;
+        }
+
+        .reel .controls button {
+            background: rgba(0, 0, 0, 0.6);
+            border: none;
+            padding: 0.5rem 1rem;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .reel .controls button:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .reel .description {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            padding: 0.5rem;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .navbar .logo {
+                margin-bottom: 1rem;
+            }
+
+            .navbar nav {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .navbar .login-signup {
+                margin-top: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">Petify</div>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#explore">Explore</a>
+            <a href="#profile">Profile</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <button class="login-signup">Login/Signup</button>
+    </header>
+
+    <div class="reels-container" id="reelsContainer">
+        <!-- Videos will be dynamically injected here -->
+    </div>
+
+    <footer>
+        &copy; 2024 Petify. All rights reserved.
+    </footer>
+
+    <script>
+        // Fetch video data from the backend
+        fetch('http://localhost:8080/api/videos') // Assuming Spring Boot runs on port 8080
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('reelsContainer');
+
+                data.forEach((video, index) => {
+                    // Create reel container
+                    const reel = document.createElement('div');
+                    reel.className = 'reel';
+                    reel.dataset.index = index;
+
+                    // Create video element
+                    const videoElement = document.createElement('video');
+                    videoElement.src = `/videos/${video.filename}`; // Adjust path if needed
+                    videoElement.muted = true;
+                    videoElement.loop = true;
+                    videoElement.autoplay = true;
+
+                    // Create description
+                    const description = document.createElement('div');
+                    description.className = 'description';
+                    description.textContent = video.description;
+
+                    // Append elements
+                    reel.appendChild(videoElement);
+                    reel.appendChild(description);
+                    container.appendChild(reel);
+                });
+
+                // Initialize the first reel
+                const reels = document.querySelectorAll('.reel');
+                let currentReelIndex = 0;
+                function showReel(index) {
+                    reels.forEach((reel, idx) => {
+                        reel.classList.toggle('active', idx === index);
+                    });
+                }
+                function playPauseReel() {
+                    const video = reels[currentReelIndex].querySelector('video');
+                    if (video.paused) {
+                        video.play();
+                        playPauseBtn.textContent = 'Pause';
+                    } else {
+                        video.pause();
+                        playPauseBtn.textContent = 'Play';
+                    }
+                }
+                function showNextReel() {
+                    currentReelIndex = (currentReelIndex + 1) % reels.length;
+                    showReel(currentReelIndex);
+                    playPauseReel(); // Play the new reel automatically
+                }
+
+                // Add controls
+                const playPauseBtn = document.createElement('button');
+                playPauseBtn.id = 'playPauseBtn';
+                playPauseBtn.textContent = 'Play';
+                const nextReelBtn = document.createElement('button');
+                nextReelBtn.id = 'nextReelBtn';
+                nextReelBtn.textContent = 'Next';
+                const controlsContainer = document.createElement('div');
+                controlsContainer.className = 'controls';
+                controlsContainer.appendChild(playPauseBtn);
+                controlsContainer.appendChild(nextReelBtn);
+                container.appendChild(controlsContainer);
+
+                // Initialize and add event listeners
+                showReel(currentReelIndex);
+                playPauseBtn.addEventListener('click', playPauseReel);
+                nextReelBtn.addEventListener('click', showNextReel);
+
+                // Handle reel clicks to switch to the selected reel
+                reels.forEach((reel, idx) => {
+                    reel.addEventListener('click', () => {
+                        currentReelIndex = idx;
+                        showReel(currentReelIndex);
+                        playPauseReel(); // Play the selected reel
+                    });
+                });
+            })
+            .catch(error => console.error('Error fetching video data:', error));
+    </script>
+</body>
+</html>
