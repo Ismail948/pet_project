@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore - Petify</title>
+    <style>
+        /* Global Styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding: 0;
+        }
+
+        header, footer {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #ffcc00;
+            padding: 1rem 2rem;
+            color: #333;
+        }
+
+        .navbar .logo {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .navbar nav {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .navbar a {
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .navbar a:hover {
+            color: #ff9900;
+            transform: scale(1.05);
+        }
+
+        .navbar .login-signup {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .navbar .login-signup:hover {
+            background-color: #ff9900;
+            transform: scale(1.05);
+        }
+
+        .main-content {
+            flex: 1; /* Pushes the footer to the bottom */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5));
+        }
+
+        .video-carousel {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .video-carousel video {
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            border-bottom: 2px solid #ffcc00;
+        }
+
+        .description {
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            text-align: center;
+            max-width: 100%;
+            font-size: 1rem;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 10px;
+        }
+
+        .controls button {
+            background: rgba(0, 0, 0, 0.6);
+            border: none;
+            padding: 0.5rem 1rem;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .controls button:hover {
+            background: rgba(0, 0, 0, 0.8);
+            transform: scale(1.1);
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+            width: 100%;
+            box-sizing: border-box;
+            position: relative;
+            bottom: 0;
+        }
+
+        /* Media Queries */
+        @media (max-width: 600px) {
+            .navbar {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .navbar nav {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .video-carousel {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="logo">Petify</div>
+         <nav id="navbar">
+        <a href="#" id="home-link">Home</a>
+        <a href="#" id="explore-link">Explore</a>
+        <a href="#" id="shopping-link">Shopping</a>
+        <a href="#" id="hospitals-link">Hospitals</a>
+        <a href="#" id="contact-link">Contact</a>
+    </nav>
+       <div class="welcome-message" th:if="${username}">
+        Welcome, <span th:text="${username}">Username</span>
+    </div>
+    <button class="login-signup" id="login-signup-btn" th:unless="${username}">Login/Signup</button>
+
+    </header>
+
+    <main class="main-content">
+        <div class="video-carousel">
+            <!-- Video element and description -->
+            <video id="current-video" controls muted></video>
+            <div class="description" id="current-description">Loading...</div>
+            <div class="controls">
+                <button id="prev-btn">&larr;</button>
+                <button id="next-btn">&rarr;</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>&copy; 2024 Petify. All rights reserved.</footer>
+
+    <!-- Use Thymeleaf to populate videos array from the server -->
+    <script th:inline="javascript">
+        var videos = [];
+    </script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var videos = /*[[${videos}]]*/ [];
+        console.log(videos); // Debug output
+        /*]]>*/
+    </script>
+
+    <script>
+        let currentIndex = 0;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const baseUrl = window.location.origin;
+            document.getElementById('home-link').href = `${baseUrl}/`;
+            document.getElementById('explore-link').href = `${baseUrl}/explore`;
+            document.getElementById('shopping-link').href = `${baseUrl}/shopping`;
+            document.getElementById('hospitals-link').href = `${baseUrl}/hospitals`;
+            document.getElementById('contact-link').href = `${baseUrl}/contact`;
+
+            const loginButton = document.getElementById('login-signup-btn');
+            if (loginButton) {
+                loginButton.addEventListener('click', function () {
+                    window.location.href = `${baseUrl}/login`;
+                });
+            }
+        });
+
+        const videoElement = document.getElementById('current-video');
+        const descriptionElement = document.getElementById('current-description');
+
+        // Function to update the video and description based on the current index
+        function loadVideo(index) {
+            if (videos.length === 0) return;
+            videoElement.src = `/videos/${videos[index].id}`; // Assuming your backend provides a URL based on video ID
+            descriptionElement.textContent = videos[index].description;
+            videoElement.play(); // Auto-play the video
+        }
+
+        // Load the first video initially
+        loadVideo(currentIndex);
+
+        // Event listeners for next and previous buttons
+        document.getElementById('next-btn').addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % videos.length; // Move to the next video
+            loadVideo(currentIndex);
+        });
+
+        document.getElementById('prev-btn').addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + videos.length) % videos.length; // Move to the previous video
+            loadVideo(currentIndex);
+        });
+
+        // Loop video when it ends
+        videoElement.addEventListener('ended', () => {
+            // Optional: Uncomment if you want to loop the same video indefinitely
+            videoElement.play();
+        });
+    </script>
+</body>
+
+</html>
