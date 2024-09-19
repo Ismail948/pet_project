@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adopt a Pet</title>
+    <link rel="stylesheet" th:href="@{/css/navbar.css}"> 
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #333;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header, footer {
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .container {
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            flex: 1;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        label {
+            font-weight: bold;
+        }
+        select {
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            width: 100%;
+            font-size: 16px;
+        }
+        .adoption-item {
+            border: 1px solid #ccc;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        .adoption-item:hover {
+            transform: scale(1.02);
+        }
+        .pet-photo img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+            position: relative;
+        }
+        .description {
+            display: none;
+            margin-top: 0.5rem;
+            font-style: italic;
+            color: #555;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 0.5rem;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 1rem;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+            select {
+                font-size: 14px;
+            }
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+    <script>
+        function submitForm() {
+            document.getElementById("pet-filter-form").submit();
+        }
+
+        function toggleDescription(button) {
+            const description = button.nextElementSibling;
+            if (description.style.display === "none" || description.style.display === "") {
+                description.style.display = "block";
+                button.textContent = "Hide Description";
+            } else {
+                description.style.display = "none";
+                button.textContent = "Show Description";
+            }
+        }
+    </script>
+</head>
+<body>
+
+<div th:replace="navbar :: navbar(username=${username})"></div>
+
+<main class="container">
+    <h1>Available Pets for Adoption</h1>
+
+    <form id="pet-filter-form" action="/adopt" method="get">
+        <label for="pet-type">Select Pet Type:</label>
+        <select id="pet-type" name="type" onchange="submitForm()">
+            <option value="all" th:selected="${type == 'all'}">All</option>
+            <option value="cat" th:selected="${type == 'cat'}">Cats</option>
+            <option value="dog" th:selected="${type == 'dog'}">Dogs</option>
+            <option value="other" th:selected="${type == 'other'}">Others</option>
+        </select>
+    </form>
+
+    <div id="adoption-list">
+        <div th:each="adoption : ${adoptions}" class="adoption-item">
+            <div class="pet-photo" th:if="${adoption.petPhoto != null}">
+                <img th:src="@{/petPhoto/{id}(id=${adoption.id})}" alt="Pet Photo" />
+            </div>
+            <h2>Posted by: <span th:text="${adoption.postedBy}"></span></h2>
+            <p>Location: <span th:text="${#strings.concat(adoption.lane, ', ', adoption.city, ', ', adoption.state, ', ', adoption.pincode)}"></span></p>
+            <p>Phone: <span th:text="${adoption.phoneNumber}"></span></p>
+            <p>Status: <span th:text="${adoption.status ? 'Available' : 'Adopted'}"></span></p>
+            <button onclick="toggleDescription(this)">Show Description</button>
+            <p class="description" th:text="${adoption.description}"></p>
+        </div>
+    </div>
+</main>
+<script src="/js/navbar.js"></script>
+<footer> &copy; 2024 Petify. All rights reserved. </footer>
+
+</body>
+</html>

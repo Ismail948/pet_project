@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hospitals</title>
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 2rem;
+            color: #333;
+        }
+
+        .hospital-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .hospital {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 1rem;
+            padding: 1rem;
+            width: 250px; /* Slightly larger width for hospital cards */
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .hospital:hover {
+            transform: scale(1.05);
+        }
+
+        .hospital img {
+            width: 100%; /* Responsive image width */
+            height: auto; /* Maintain aspect ratio */
+            border-radius: 8px 8px 0 0; /* Round top corners */
+        }
+
+        .hospital h2 {
+            font-size: 1.5rem;
+            margin: 0.5rem 0; /* Space above and below heading */
+        }
+
+        .address {
+            font-size: 1rem;
+            color: #555; /* Gray color for address */
+            margin: 0.5rem 0;
+        }
+
+        .contact {
+            font-size: 1rem;
+            color: #007BFF; /* Blue color for contact */
+            margin: 0.5rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div th:replace="navbar :: navbar(username=${username})"></div>
+    <script src="/js/navbar.js"></script>
+    
+    <h1>Get Updated Soon...</h1>
+
+    <div class="hospital-list">
+        <div class="hospital">
+            <img src="image/hos1.jpg" alt="City Hospital">
+            <h2>City Hospital</h2>
+            <p class="address">123, MG Road, Ahmedabad, Gujarat</p>
+            <p class="contact">Contact: +91 98765 43210</p>
+        </div>
+        <div class="hospital">
+            <img src="image/hos2.jpg" alt="General Medical Center">
+            <h2>General Medical Center</h2>
+            <p class="address">456, S.G. Highway, Ahmedabad, Gujarat</p>
+            <p class="contact">Contact: +91 91234 56789</p>
+        </div>
+        <div class="hospital">
+            <img src="image/hos3.jpg" alt="Sunrise Health">
+            <h2>Sunrise Health</h2>
+            <p class="address">789, Naroda Road, Ahmedabad, Gujarat</p>
+            <p class="contact">Contact: +91 99876 54321</p>
+        </div>
+        <div class="hospital">
+            <img src="image/hos4.jpg" alt="Hope Clinic">
+            <h2>Hope Clinic</h2>
+            <p class="address">101, Ashram Road, Ahmedabad, Gujarat</p>
+            <p class="contact">Contact: +91 87654 32109</p>
+        </div>
+    </div>
+
+</body>
+</html>

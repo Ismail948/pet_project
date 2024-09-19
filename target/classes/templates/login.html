@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+    <style>
+        :root {
+            font-size: 16px; /* Base font size, adjust as needed */
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 1.25rem; /* 20px */
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 25rem; /* 400px */
+            width: 100%;
+            background-color: #fff;
+            border-radius: 0.75rem; /* 12px */
+            box-shadow: 0 0 0.9375rem rgba(0, 0, 0, 0.1); /* 15px */
+            padding: 1.25rem; /* 20px */
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 1.25rem; /* 20px */
+            font-size: 1.5rem; /* 24px */
+        }
+
+        label {
+            display: block;
+            margin: 0.625rem 0 0.3125rem; /* 10px 0 5px */
+            text-align: left;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 0.75rem; /* 12px */
+            border: 1px solid #ccc;
+            border-radius: 0.5rem; /* 8px */
+            margin-bottom: 1.25rem; /* 20px */
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 0.75rem; /* 12px */
+            border-radius: 0.5rem; /* 8px */
+            cursor: pointer;
+            font-size: 1rem; /* 16px */
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .register-btn {
+            background-color: #28a745;
+            color: #fff;
+            padding: 0.75rem; /* 12px */
+            border-radius: 0.5rem; /* 8px */
+            cursor: pointer;
+            font-size: 1rem; /* 16px */
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+            margin-top: 0.625rem; /* 10px */
+        }
+
+        .register-btn:hover {
+            background-color: #218838;
+        }
+
+        @media (max-width: 30rem) { /* 480px */
+            .container {
+                padding: 1rem; /* 16px */
+                max-width: 100%;
+                box-shadow: none;
+            }
+
+            h1 {
+                font-size: 1.25rem; /* 20px */
+            }
+
+            input[type="text"],
+            input[type="password"] {
+                padding: 0.625rem; /* 10px */
+                font-size: 0.875rem; /* 14px */
+            }
+
+            button,
+            .register-btn {
+                font-size: 0.875rem; /* 14px */
+                padding: 0.625rem; /* 10px */
+            }
+        }
+
+        @media (max-width: 48rem) { /* 768px */
+            .container {
+                max-width: 90%;
+            }
+
+            h1 {
+                font-size: 1.375rem; /* 22px */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Login</h1>
+        <form action="/login" method="post">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required/><br/>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required/><br/>
+<!--             <input type="hidden" name="_csrf" th:value="${_csrf.token}"/> -->
+            <button type="submit">Login</button>
+        </form>
+        <a href="/register" class="register-btn">Register</a>
+    </div>
+</body>
+</html>
