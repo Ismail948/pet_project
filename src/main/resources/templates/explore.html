@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Explore - Petify</title>
+      <link rel="stylesheet" th:href="@{/css/navbar.css}"> 
     <style>
+        /* Global Styles */
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -12,118 +15,76 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            padding: 0;
         }
 
-        .navbar {
+        header, footer {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+  
+
+        .main-content {
+            flex: 1; /* Pushes the footer to the bottom */
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            background-color: #ffcc00; /* Bright yellow */
-            padding: 1rem 2rem;
-            color: #333;
-            position: relative;
-            z-index: 1;
+            padding: 2rem;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5));
         }
 
-        .navbar .logo {
-            font-size: 2rem;
-            font-weight: bold;
-        }
-
-        .navbar nav {
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .navbar a {
-            color: #333;
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.3s, transform 0.3s;
-        }
-
-        .navbar a:hover {
-            color: #ff9900; /* Darker yellow */
-            transform: scale(1.05);
-        }
-
-        .navbar .login-signup {
-            background-color: #333;
-            color: #fff;
-            border: none;
-            padding: 0.5rem 1rem;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s, transform 0.3s;
-        }
-
-        .navbar .login-signup:hover {
-            background-color: #ff9900; /* Darker yellow */
-            transform: scale(1.05);
-        }
-
-        .reels-container {
+        .video-carousel {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            flex: 1;
-            overflow: hidden;
-        }
-
-        .reel {
             position: relative;
             width: 100%;
-            height: 100vh; /* Full height for each reel */
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            max-width: 600px;
             background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
-        .reel video {
+        .video-carousel video {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
+            height: auto;
+            max-height: 400px;
+            border-bottom: 2px solid #ffcc00;
         }
 
-        .reel .controls {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
+        .description {
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            text-align: center;
+            max-width: 100%;
+            font-size: 1rem;
+        }
+
+        .controls {
             display: flex;
             gap: 1rem;
-            color: #fff;
+            margin-top: 10px;
         }
 
-        .reel .controls button {
+        .controls button {
             background: rgba(0, 0, 0, 0.6);
             border: none;
             padding: 0.5rem 1rem;
             color: #fff;
             font-size: 1.5rem;
             cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s;
+            border-radius: 50%;
+            transition: background-color 0.3s, transform 0.3s;
         }
 
-        .reel .controls button:hover {
+        .controls button:hover {
             background: rgba(0, 0, 0, 0.8);
-        }
-
-        .description {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            background: rgba(0, 0, 0, 0.6);
-            color: #fff;
-            padding: 0.5rem;
-            border-radius: 5px;
-            font-size: 1rem;
+            transform: scale(1.1);
         }
 
         footer {
@@ -133,92 +94,85 @@
             padding: 1rem;
             width: 100%;
             box-sizing: border-box;
+            position: relative;
+            bottom: 0;
         }
 
-        @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                align-items: center;
-            }
+        /* Media Queries */
+        @media (max-width: 600px) {
+         
 
-            .navbar .logo {
-                margin-bottom: 1rem;
-            }
-
-            .navbar nav {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-
-            .navbar .login-signup {
-                margin-top: 1rem;
+            .video-carousel {
+                width: 90%;
             }
         }
     </style>
 </head>
-<body>
-    <header class="navbar">
-        <div class="logo">Petify</div>
-        <nav>
-            <a href="#home">Home</a>
-            <a href="#explore">Explore</a>
-            <a href="#profile">Profile</a>
-            <a href="#contact">Contact</a>
-        </nav>
-        <button class="login-signup">Login/Signup</button>
-    </header>
 
-    <div class="reels-container">
-        <div class="reel">
-            <video src="/video/reel1.mp4" autoplay muted loop></video>
-            <div class="description">Description for Reel 1</div>
+<body>
+   
+ <div th:replace="navbar :: navbar(username=${username})"></div>
+
+
+
+    <main class="main-content">
+        <div class="video-carousel">
+            <!-- Video element and description -->
+            <video id="current-video" controls muted></video>
+            <div class="description" id="current-description">Loading...</div>
             <div class="controls">
-                <button id="playPauseBtn">Pause</button>
-                <button id="nextReelBtn">Next</button>
+                <button id="prev-btn">&larr;</button>
+                <button id="next-btn">&rarr;</button>
             </div>
         </div>
-        <!-- Add more reels as needed -->
-    </div>
+    </main>
 
-    <footer>
-        &copy; 2024 Petify. All rights reserved.
-    </footer>
+    <footer>&copy; 2024 Petify. All rights reserved.</footer>
+
+    <!-- Use Thymeleaf to populate videos array from the server -->
+    <script th:inline="javascript">
+        var videos = [];
+    </script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var videos = /*[[${videos}]]*/ [];
+        console.log(videos); // Debug output
+        /*]]>*/
+    </script>
+<script src="/js/navbar.js"></script>
 
     <script>
-        // JavaScript to handle play/pause and next reel functionality
-        const playPauseBtn = document.getElementById('playPauseBtn');
-        const nextReelBtn = document.getElementById('nextReelBtn');
-        const reels = document.querySelectorAll('.reel');
-        let currentReelIndex = 0;
+        const videoElement = document.getElementById('current-video');
+        const descriptionElement = document.getElementById('current-description');
 
-        function showReel(index) {
-            reels.forEach((reel, idx) => {
-                reel.style.display = idx === index ? 'flex' : 'none';
-            });
+        // Function to update the video and description based on the current index
+        function loadVideo(index) {
+            if (videos.length === 0) return;
+            videoElement.src = `/videos/${videos[index].id}`; // Assuming your backend provides a URL based on video ID
+            descriptionElement.textContent = videos[index].description;
+            videoElement.play(); // Auto-play the video
         }
 
-        function playPauseReel() {
-            const video = reels[currentReelIndex].querySelector('video');
-            if (video.paused) {
-                video.play();
-                playPauseBtn.textContent = 'Pause';
-            } else {
-                video.pause();
-                playPauseBtn.textContent = 'Play';
-            }
-        }
+        // Load the first video initially
+        loadVideo(currentIndex);
 
-        function showNextReel() {
-            currentReelIndex = (currentReelIndex + 1) % reels.length;
-            showReel(currentReelIndex);
-            playPauseReel(); // Play the new reel automatically
-        }
+        // Event listeners for next and previous buttons
+        document.getElementById('next-btn').addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % videos.length; // Move to the next video
+            loadVideo(currentIndex);
+        });
 
-        playPauseBtn.addEventListener('click', playPauseReel);
-        nextReelBtn.addEventListener('click', showNextReel);
+        document.getElementById('prev-btn').addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + videos.length) % videos.length; // Move to the previous video
+            loadVideo(currentIndex);
+        });
 
-        // Initial setup
-        showReel(currentReelIndex);
+        // Loop video when it ends
+        videoElement.addEventListener('ended', () => {
+            // Optional: Uncomment if you want to loop the same video indefinitely
+            videoElement.play();
+        });
     </script>
 </body>
+
 </html>
