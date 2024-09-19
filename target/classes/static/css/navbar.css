@@ -1,0 +1,124 @@
+/* General Navbar styling */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffcc00;
+    padding: 1rem 2rem;
+    color: #333;
+}
+
+.navbar .logo {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.navbar nav {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.navbar a {
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s, transform 0.3s;
+}
+
+.navbar a:hover {
+    color: #ff9900;
+    transform: scale(1.05);
+}
+
+.navbar .login-signup {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.navbar .login-signup:hover {
+    background-color: #ff9900;
+    transform: scale(1.05);
+}
+
+/* User info and dropdown */
+.user-info {
+    position: relative;
+    display: inline-block;
+}
+
+.user-welcome {
+    cursor: pointer;
+    font-weight: bold;
+    color: #333;
+    transition: color 0.3s;
+}
+
+.user-welcome:hover {
+    color: #ff9900;
+}
+
+/* Dropdown content styling */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #fff;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    border-radius: 8px; /* Rounded border for the dropdown */
+    overflow: hidden;
+}
+
+.dropdown-content a {
+    color: #333;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    transition: background-color 0.3s, color 0.3s;
+    border-radius: 4px; /* Slight rounding for all links */
+}
+
+/* General hover effect for all dropdown links */
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+/* Specific styling for the Logout link */
+.dropdown-content a.logout-link {
+    font-weight: bold;
+    color: #333; /* Default color for logout */
+    border-radius: 8px; /* More rounded for logout specifically */
+}
+
+/* Red color on hover for logout */
+.dropdown-content a.logout-link:hover {
+    background-color: #ffe6e6;
+    color: #e74c3c; /* Red color for logout on hover */
+}
+
+/* Show the dropdown on hover */
+.user-info:hover .dropdown-content {
+    display: block;
+}
+
+/* Responsive styling */
+@media (max-width: 600px) {
+    .navbar {
+        flex-direction: column;
+        padding: 1rem;
+    }
+
+    .navbar nav {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}

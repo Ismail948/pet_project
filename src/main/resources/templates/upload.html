@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Video - Petify</title>
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <style>
+        /* Navbar and page layout styles here */
+		body {
+		           margin: 0;
+		           font-family: Arial, sans-serif;
+
+		       }
+        main {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            margin: 20px auto; /* Center the form horizontally */
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin: 15px 0 5px;
+            text-align: left;
+        }
+
+        input[type="file"], 
+        textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="file"]:hover, 
+        textarea:hover {
+            border-color: #007bff;
+        }
+
+        textarea {
+            height: 100px;
+            resize: none;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        button:active {
+            background-color: #003f8a;
+        }
+
+        button:disabled {
+            background-color: #bbb;
+            cursor: not-allowed;
+        }
+
+        input[type="file"],
+        textarea {
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input[type="file"]:focus, 
+        textarea:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.2);
+            outline: none;
+        }
+
+        @media (max-width: 600px) {
+            main {
+                padding: 20px;
+                border-radius: 5px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            button {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div th:replace="navbar :: navbar(username=${username})"></div>
+
+    <main>
+        <h1>Upload Video</h1>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <label for="file">Choose Video File:</label>
+            <input type="file" id="file" name="file" required><br><br>
+
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" placeholder="Describe your video" required></textarea><br><br>
+
+            <button type="submit">Upload Video</button>
+        </form>
+    </main>
+
+    <script src="/js/navbar.js"></script>
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+
+            fetch('http://localhost:8080/api/videos/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(result => alert(result))
+            .catch(error => console.error('Error uploading video:', error));
+        });
+    </script>
+</body>
+</html>
