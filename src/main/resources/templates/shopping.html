@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shopping</title>
+    <link rel="stylesheet" th:href="@{/css/navbar.css}"> 
+    <style>
+        html, body {
+            height: 100%; /* Full height for body and html */
+        }
+
+        body {
+            display: flex;
+            flex-direction: column; /* Stack children vertically */
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4; /* Light background for contrast */
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 2rem;
+            color: #333; /* Heading color */
+        }
+
+        .product-list {
+            flex: 1; /* Allow product list to grow */
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .product {
+            background-color: #fff; /* White background for products */
+            border: 1px solid #ccc; /* Light border */
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            margin: 1rem;
+            padding: 1rem;
+            width: 200px; /* Fixed width for product cards */
+            text-align: center;
+            transition: transform 0.3s; /* Animation effect */
+        }
+
+        .product:hover {
+            transform: scale(1.05); /* Scale effect on hover */
+        }
+
+        .product h2 {
+            font-size: 1.5rem; /* Heading size */
+            margin-bottom: 0.5rem; /* Space below heading */
+        }
+
+        .price {
+            font-size: 1.25rem; /* Price size */
+            color: #ff9900; /* Highlight price color */
+            margin-top: 0.5rem; /* Space above price */
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background-color: #333; /* Dark background for footer */
+            color: #fff; /* White text in footer */
+            width: 100%;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+
+<div th:replace="navbar :: navbar(username=${username})"></div>
+<script src="/js/navbar.js"></script>
+
+<h1>Get Updated Soon...</h1>
+
+<div class="product-list">
+    <div class="product">
+        <h2>Product 1</h2>
+        <p>Description of product 1.</p>
+        <p class="price">$10.00</p>
+    </div>
+    <div class="product">
+        <h2>Product 2</h2>
+        <p>Description of product 2.</p>
+        <p class="price">$20.00</p>
+    </div>
+    <div class="product">
+        <h2>Product 3</h2>
+        <p>Description of product 3.</p>
+        <p class="price">$30.00</p>
+    </div>
+    <div class="product">
+        <h2>Product 4</h2>
+        <p>Description of product 4.</p>
+        <p class="price">$40.00</p>
+    </div>
+</div>
+
+<footer>
+    &copy; 2024 Your Shopping Site. All rights reserved.
+</footer>
+
+</body>
+</html>
