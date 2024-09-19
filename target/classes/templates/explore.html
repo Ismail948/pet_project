@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Explore - Petify</title>
     <style>
-        /* Global Styles */
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -14,21 +12,17 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            padding: 0;
-        }
-
-        header, footer {
-            width: 100%;
-            box-sizing: border-box;
         }
 
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #ffcc00;
+            background-color: #ffcc00; /* Bright yellow */
             padding: 1rem 2rem;
             color: #333;
+            position: relative;
+            z-index: 1;
         }
 
         .navbar .logo {
@@ -49,7 +43,7 @@
         }
 
         .navbar a:hover {
-            color: #ff9900;
+            color: #ff9900; /* Darker yellow */
             transform: scale(1.05);
         }
 
@@ -66,70 +60,70 @@
         }
 
         .navbar .login-signup:hover {
-            background-color: #ff9900;
+            background-color: #ff9900; /* Darker yellow */
             transform: scale(1.05);
         }
 
-        .main-content {
-            flex: 1; /* Pushes the footer to the bottom */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5));
-        }
-
-        .video-carousel {
+        .reels-container {
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .reel {
             position: relative;
             width: 100%;
-            max-width: 600px;
-            background: #000;
-            border-radius: 10px;
+            height: 100vh; /* Full height for each reel */
             overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000;
         }
 
-        .video-carousel video {
+        .reel video {
             width: 100%;
-            height: auto;
-            max-height: 400px;
-            border-bottom: 2px solid #ffcc00;
+            height: 100%;
+            object-fit: cover;
         }
 
-        .description {
-            color: #fff;
-            background-color: rgba(0, 0, 0, 0.7);
-            padding: 15px;
-            border-radius: 5px;
-            margin-top: 10px;
-            text-align: center;
-            max-width: 100%;
-            font-size: 1rem;
-        }
-
-        .controls {
+        .reel .controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
             gap: 1rem;
-            margin-top: 10px;
+            color: #fff;
         }
 
-        .controls button {
+        .reel .controls button {
             background: rgba(0, 0, 0, 0.6);
             border: none;
             padding: 0.5rem 1rem;
             color: #fff;
             font-size: 1.5rem;
             cursor: pointer;
-            border-radius: 50%;
-            transition: background-color 0.3s, transform 0.3s;
+            border-radius: 5px;
+            transition: background-color 0.3s;
         }
 
-        .controls button:hover {
+        .reel .controls button:hover {
             background: rgba(0, 0, 0, 0.8);
-            transform: scale(1.1);
+        }
+
+        .description {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            padding: 0.5rem;
+            border-radius: 5px;
+            font-size: 1rem;
         }
 
         footer {
@@ -139,15 +133,16 @@
             padding: 1rem;
             width: 100%;
             box-sizing: border-box;
-            position: relative;
-            bottom: 0;
         }
 
-        /* Media Queries */
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
             .navbar {
                 flex-direction: column;
-                padding: 1rem;
+                align-items: center;
+            }
+
+            .navbar .logo {
+                margin-bottom: 1rem;
             }
 
             .navbar nav {
@@ -155,105 +150,75 @@
                 gap: 0.5rem;
             }
 
-            .video-carousel {
-                width: 90%;
+            .navbar .login-signup {
+                margin-top: 1rem;
             }
         }
     </style>
 </head>
-
 <body>
     <header class="navbar">
         <div class="logo">Petify</div>
-         <nav id="navbar">
-        <a href="#" id="home-link">Home</a>
-        <a href="#" id="explore-link">Explore</a>
-        <a href="#" id="shopping-link">Shopping</a>
-        <a href="#" id="hospitals-link">Hospitals</a>
-        <a href="#" id="contact-link">Contact</a>
-    </nav>
-       <div class="welcome-message" th:if="${username}">
-        Welcome, <span th:text="${username}">Username</span>
-    </div>
-    <button class="login-signup" id="login-signup-btn" th:unless="${username}">Login/Signup</button>
-
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#explore">Explore</a>
+            <a href="#profile">Profile</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <button class="login-signup">Login/Signup</button>
     </header>
 
-    <main class="main-content">
-        <div class="video-carousel">
-            <!-- Video element and description -->
-            <video id="current-video" controls muted></video>
-            <div class="description" id="current-description">Loading...</div>
+    <div class="reels-container">
+        <div class="reel">
+            <video src="/video/reel1.mp4" autoplay muted loop></video>
+            <div class="description">Description for Reel 1</div>
             <div class="controls">
-                <button id="prev-btn">&larr;</button>
-                <button id="next-btn">&rarr;</button>
+                <button id="playPauseBtn">Pause</button>
+                <button id="nextReelBtn">Next</button>
             </div>
         </div>
-    </main>
+        <!-- Add more reels as needed -->
+    </div>
 
-    <footer>&copy; 2024 Petify. All rights reserved.</footer>
-
-    <!-- Use Thymeleaf to populate videos array from the server -->
-    <script th:inline="javascript">
-        var videos = [];
-    </script>
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        var videos = /*[[${videos}]]*/ [];
-        console.log(videos); // Debug output
-        /*]]>*/
-    </script>
+    <footer>
+        &copy; 2024 Petify. All rights reserved.
+    </footer>
 
     <script>
-        let currentIndex = 0;
+        // JavaScript to handle play/pause and next reel functionality
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const nextReelBtn = document.getElementById('nextReelBtn');
+        const reels = document.querySelectorAll('.reel');
+        let currentReelIndex = 0;
 
-        document.addEventListener('DOMContentLoaded', function () {
-            const baseUrl = window.location.origin;
-            document.getElementById('home-link').href = `${baseUrl}/`;
-            document.getElementById('explore-link').href = `${baseUrl}/explore`;
-            document.getElementById('shopping-link').href = `${baseUrl}/shopping`;
-            document.getElementById('hospitals-link').href = `${baseUrl}/hospitals`;
-            document.getElementById('contact-link').href = `${baseUrl}/contact`;
-
-            const loginButton = document.getElementById('login-signup-btn');
-            if (loginButton) {
-                loginButton.addEventListener('click', function () {
-                    window.location.href = `${baseUrl}/login`;
-                });
-            }
-        });
-
-        const videoElement = document.getElementById('current-video');
-        const descriptionElement = document.getElementById('current-description');
-
-        // Function to update the video and description based on the current index
-        function loadVideo(index) {
-            if (videos.length === 0) return;
-            videoElement.src = `/videos/${videos[index].id}`; // Assuming your backend provides a URL based on video ID
-            descriptionElement.textContent = videos[index].description;
-            videoElement.play(); // Auto-play the video
+        function showReel(index) {
+            reels.forEach((reel, idx) => {
+                reel.style.display = idx === index ? 'flex' : 'none';
+            });
         }
 
-        // Load the first video initially
-        loadVideo(currentIndex);
+        function playPauseReel() {
+            const video = reels[currentReelIndex].querySelector('video');
+            if (video.paused) {
+                video.play();
+                playPauseBtn.textContent = 'Pause';
+            } else {
+                video.pause();
+                playPauseBtn.textContent = 'Play';
+            }
+        }
 
-        // Event listeners for next and previous buttons
-        document.getElementById('next-btn').addEventListener('click', () => {
-            currentIndex = (currentIndex + 1) % videos.length; // Move to the next video
-            loadVideo(currentIndex);
-        });
+        function showNextReel() {
+            currentReelIndex = (currentReelIndex + 1) % reels.length;
+            showReel(currentReelIndex);
+            playPauseReel(); // Play the new reel automatically
+        }
 
-        document.getElementById('prev-btn').addEventListener('click', () => {
-            currentIndex = (currentIndex - 1 + videos.length) % videos.length; // Move to the previous video
-            loadVideo(currentIndex);
-        });
+        playPauseBtn.addEventListener('click', playPauseReel);
+        nextReelBtn.addEventListener('click', showNextReel);
 
-        // Loop video when it ends
-        videoElement.addEventListener('ended', () => {
-            // Optional: Uncomment if you want to loop the same video indefinitely
-            videoElement.play();
-        });
+        // Initial setup
+        showReel(currentReelIndex);
     </script>
 </body>
-
 </html>

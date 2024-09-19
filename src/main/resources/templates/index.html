@@ -1,32 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Pet Project</title>
-<style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    color: #333;
-    background-color: #f9f9f9;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Pet Project</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #333;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
 
-header, footer {
-    width: 100%;
-    box-sizing: border-box;
-}
-
- .navbar {
+        .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #ffcc00;
+            background-color: #ffcc00; /* Bright yellow */
             padding: 1rem 2rem;
             color: #333;
+            position: relative;
+            z-index: 1;
         }
 
         .navbar .logo {
@@ -47,7 +44,7 @@ header, footer {
         }
 
         .navbar a:hover {
-            color: #ff9900;
+            color: #ff9900; /* Darker yellow */
             transform: scale(1.05);
         }
 
@@ -64,98 +61,98 @@ header, footer {
         }
 
         .navbar .login-signup:hover {
-            background-color: #ff9900;
+            background-color: #ff9900; /* Darker yellow */
             transform: scale(1.05);
         }
 
-.banner {
-    position: relative;
-    overflow: hidden;
-    height: 500px; /* Increased height */
-    margin: 0; /* Removed space between navbar and banner */
-}
+        .banner {
+            position: relative;
+            overflow: hidden;
+            height: 500px; /* Increased height */
+            margin: 0; /* Removed space between navbar and banner */
+        }
 
-.banner img {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    object-fit: cover;
-    /* Ensure image covers the banner without distortion */
-    opacity: 0;
-    transition: opacity 1s ease-in-out, transform 1s ease-in-out;
-    /* Improved transition effect */
-}
+        .banner img {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            object-fit: cover; /* Ensure image covers the banner without distortion */
+            opacity: 0;
+            transition: opacity 1s ease-in-out, transform 1s ease-in-out; /* Improved transition effect */
+        }
 
-.banner img.active {
-    opacity: 1;
-    transform: scale(1.1);
-}
+        .banner img.active {
+            opacity: 1;
+            transform: scale(1.1);
+        }
 
-.banner-button {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
-    color: #fff;
-    border: none;
-    padding: 0.5rem;
-    cursor: pointer;
-    font-size: 2rem;
-    border-radius: 50%;
-    z-index: 2;
-    transition: background-color 0.3s, transform 0.3s;
-}
+        .banner-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            border: none;
+            padding: 0.5rem;
+            cursor: pointer;
+            font-size: 2rem;
+            border-radius: 50%;
+            z-index: 2;
+            transition: background-color 0.3s, transform 0.3s;
+        }
 
-.banner-button.left {
-    left: 10px;
-}
+        .banner-button.left {
+            left: 10px;
+        }
 
-.banner-button.right {
-    right: 10px;
-}
+        .banner-button.right {
+            right: 10px;
+        }
 
-.banner-button:hover {
-    background-color: rgba(0, 0, 0, 0.7);
-    transform: scale(1.1);
-}
+        .banner-button:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+            transform: scale(1.1);
+        }
 
-.container {
-    padding: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    flex: 1;
-}
+        .container {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex: 1;
+        }
 
-h1 {
-    color: #333;
-    margin-bottom: 1rem;
-}
+        h1 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
 
-section {
-    margin-bottom: 2rem;
-    padding: 1rem;
-    border-radius: 8px;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
+        section {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
 
-footer {
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    padding: 1rem;
-    width: 100%;
-    box-sizing: border-box;
-    position: fixed;
-    bottom: 0;
-}
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
 
- @media (max-width: 600px) {
+        @media (max-width: 768px) {
             .navbar {
                 flex-direction: column;
-                padding: 1rem;
+                align-items: center;
+            }
+
+            .navbar .logo {
+                margin-bottom: 1rem;
             }
 
             .navbar nav {
@@ -163,85 +160,86 @@ footer {
                 gap: 0.5rem;
             }
 
-            .video-carousel {
-                width: 90%;
+            .navbar .login-signup {
+                margin-top: 1rem;
             }
-}
-</style>
+        }
+    </style>
 </head>
 <body>
-<header class="navbar">
-    <div class="logo">Petify</div>
-    <nav id="navbar">
-        <a href="#" id="home-link">Home</a>
-        <a href="#" id="explore-link">Explore</a>
-        <a href="#" id="shopping-link">Shopping</a>
-        <a href="#" id="hospitals-link">Hospitals</a>
-        <a href="#" id="contact-link">Contact</a>
-    </nav>
-    <div class="welcome-message" th:if="${username}">
-        Welcome, <span th:text="${username}">Username</span>
+    <header class="navbar">
+        <div class="logo">Petify</div>
+        <nav>
+            <a href="">Home</a>
+            <a href="http://localhost:8070/explore">Explore</a>
+            <a href="#profile">Profile</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <button class="login-signup">Login/Signup</button>
+    </header>
+    
+    <div class="banner">
+        <img src="/image/banner1.jpg" alt="Banner 1" class="banner-image active">
+        <img src="/image/banner2.jpg" alt="Banner 2" class="banner-image">
+        <button class="banner-button left">&lt;</button>
+        <button class="banner-button right">&gt;</button>
     </div>
-   <button class="login-signup" id="login-signup-btn" th:unless="${username}">Login/Signup</button>
-</header> 
+    
+    <div class="container">
+        <section id="home">
+            <h1>Welcome to Petify</h1>
+            <p>This is the home section of your project.</p>
+        </section>
+        
+        <section id="explore">
+            <h1>Explore</h1>
+            <p>This is the explore section where you can add content related to exploration.</p>
+        </section>
+        
+        <section id="profile">
+            <h1>Your Profile</h1>
+            <p>This is the profile section where you can add user profile details.</p>
+        </section>
+        
+        <section id="contact">
+            <h1>Contact Us</h1>
+            <p>This is the contact section where you can add your contact details.</p>
+        </section>
+    </div>
 
-<div class="banner">
-    <img src="/image/banner1.jpg" alt="Banner 1" class="banner-image active"> 
-    <img src="/image/banner2.jpg" alt="Banner 2" class="banner-image">
-    <button class="banner-button left">&lt;</button>
-    <button class="banner-button right">&gt;</button>
-</div>
+    <footer>
+        &copy; 2024 Petify. All rights reserved.
+    </footer>
 
-<main class="container">
-    <!-- Main content goes here -->
-</main>
+    <script>
+        // JavaScript to handle banner image rotation and navigation buttons
+        const images = document.querySelectorAll('.banner-image');
+        let currentIndex = 0;
 
-<footer> &copy; 2024 Petify. All rights reserved. </footer>
+        function showImage(index) {
+            images.forEach((img, idx) => {
+                img.classList.toggle('active', idx === index);
+            });
+        }
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const baseUrl = window.location.origin;
-    document.getElementById('home-link').href = `${baseUrl}/`;
-    document.getElementById('explore-link').href = `${baseUrl}/explore`;
-    document.getElementById('shopping-link').href = `${baseUrl}/shopping`;
-    document.getElementById('hospitals-link').href = `${baseUrl}/hospitals`;
-    document.getElementById('contact-link').href = `${baseUrl}/contact`;
-    const loginButton = document.getElementById('login-signup-btn');
-    if (loginButton) {
-        loginButton.addEventListener('click', function () {
-            window.location.href = `${baseUrl}/login`;
-        });
-    }
-});
+        function showNextImage() {
+            currentIndex = (currentIndex + 1) % images.length;
+            showImage(currentIndex);
+        }
 
-// JavaScript to handle banner image rotation and navigation buttons
-const images = document.querySelectorAll('.banner-image');
-let currentIndex = 0;
+        function showPrevImage() {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            showImage(currentIndex);
+        }
 
-function showImage(index) {
-    images.forEach((img, idx) => {
-        img.classList.toggle('active', idx === index);
-    });
-}
+        document.querySelector('.banner-button.right').addEventListener('click', showNextImage);
+        document.querySelector('.banner-button.left').addEventListener('click', showPrevImage);
 
-function showNextImage() {
-    currentIndex = (currentIndex + 1) % images.length;
-    showImage(currentIndex);
-}
+        // Initial setup
+        showImage(currentIndex);
 
-function showPrevImage() {
-    currentIndex = (currentIndex - 1 + images.length) % images.length;
-    showImage(currentIndex);
-}
-
-document.querySelector('.banner-button.right').addEventListener('click', showNextImage);
-document.querySelector('.banner-button.left').addEventListener('click', showPrevImage);
-
-// Initial setup
-showImage(currentIndex);
-
-// Change images every 3.5 seconds
-setInterval(showNextImage, 3500);
-</script>
+        // Change images every 2 seconds
+        setInterval(showNextImage, 3500);
+    </script>
 </body>
 </html>
